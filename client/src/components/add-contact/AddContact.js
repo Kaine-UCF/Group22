@@ -158,7 +158,7 @@ class ContactTable extends Component {
 		// Do some js stuff outside of the return of jsx.
 		var rows = [];
 		//TODO(Levi): search should not be case sensitive
-
+		// edit this line
 		var temp = this.props.contacts;
 		temp.sort((a,b) => a.name > b.name ? 1 : -1)
 		this.props.contacts.forEach(

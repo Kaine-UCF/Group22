@@ -21,12 +21,23 @@ const Contact = require("../../models/Contact");
 router.get('/test', (req, res) => res.json({ msg: 'Contacts Works' }));
 
 
+router.get('/list', (req, res) => {
+
+  Contact.find()
+  .then( contacts => {
+    res.json(contacts)
+  })
+  .catch ( err => {res.status(400).json("ERRORRRRRRRRR: " + err) });
+  });
+
+
 // @route   POST api/contacts/create
 // @desc    Create a contact
 // @access  Private
-router.post("/create", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.post("/create",/* passport.authenticate("jwt", { session: false }), */
+        (req, res) => {
+          console.log(req)
     const {errors, isValid} = validateContactCreation(req.body);
-
     // check validation
     if(!isValid) {
         return res.status(400).json(errors);
@@ -50,7 +61,7 @@ router.post("/create", passport.authenticate("jwt", { session: false }), (req, r
 // @route   DELETE api/contacts/:id
 // @desc    Delete contact by its ObjectId
 // @access  Private
-router.delete('/:id', passport.authenticate("jwt", { session: false }), function(req, res, next) {
+router.delete('/:id', /*passport.authenticate("jwt", { session: false }),*/ function(req, res, next) {
     Contact.findByIdAndDelete(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
@@ -61,13 +72,15 @@ router.delete('/:id', passport.authenticate("jwt", { session: false }), function
 // @route   POST api/contacts/update/:id
 // @desc    Update contact by its ObjectId
 // @access  Private
-router.post('/update/:id', passport.authenticate("jwt", { session: false }), function(req, res, next) {
+router.post('/update/:id',/* passport.authenticate("jwt", { session: false }),*/
+  function(req, res, next) {
     const {errors, isValid} = validateContactCreation(req.body);
-
+      console.log(req)
     if(!isValid) {
         return res.status(400).json(errors);
     }
     else {
+
         Contact.findById(req.params.id)
         .then(contact => {
             contact.fname = req.body.fname;

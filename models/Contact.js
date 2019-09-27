@@ -22,8 +22,12 @@ const ContactSchema = new Schema({
     email: {
         type: String,
         required: true
+    },
+    owner: {
+        type: String,
+        required: true
     }
 });
 
 
-module.exports = Contact = mongoose.model("contact", ContactSchema);
+module.exports = Contact = mongoose.model("contact", ContactSchema); 

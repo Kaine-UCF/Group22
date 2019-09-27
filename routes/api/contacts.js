@@ -47,7 +47,8 @@ router.post("/create",/* passport.authenticate("jwt", { session: false }), */
             fname: req.body.fname,
             lname: req.body.lname,
             phone: req.body.phone,
-            email: req.body.email
+            email: req.body.email,
+            owner: req.body.owner
         });
 
         newContact

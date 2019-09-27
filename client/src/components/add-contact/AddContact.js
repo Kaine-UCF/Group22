@@ -87,10 +87,25 @@ class Contact extends Component {
 	{
 		return (
 			<div>
+<<<<<<< HEAD
 				<img src={ContactLogo} height="50" />
 				<div>
 					<SearchBar
 						search={this.search}/>
+=======
+				<div class="col-xs-6">
+					<img src={ContactLogo} class="ContactLogo"/>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-6" class="Center">
+							<SearchBar
+									search={this.search}/>
+						</div>
+					</div>
+				</div>
+				<div>
+>>>>>>> a63747fe5aef76f427a1b11801dc3f904bf434bf
 					<NewContact
 						createNewContact = {this.createNewContact}/>
 					<ContactTable
@@ -170,10 +185,14 @@ class ContactRow extends Component {
 						name="fname"
 						type = "text"
 						class ="form-control"
+<<<<<<< HEAD
 						value =	{
 							(!this.state.isEdit)
 							? (this.props.contact.fname || "")
 							: this.state.fName}
+=======
+						value =	{this.props.contact.fname || ""}
+>>>>>>> a63747fe5aef76f427a1b11801dc3f904bf434bf
 						onChange = {this.editData}/>
 				</td>
 				<td>
@@ -182,10 +201,14 @@ class ContactRow extends Component {
 						name="lname"
 						type = "text"
 						class ="form-control"
+<<<<<<< HEAD
 						value =	{
 							(!this.state.isEdit)
 							? (this.props.contact.lname || "")
 							: this.state.lName}
+=======
+						value =	{this.props.contact.lname || ""}
+>>>>>>> a63747fe5aef76f427a1b11801dc3f904bf434bf
 						onChange = {this.editData}/>
 				</td>
 				{/*TODO(Levi): Find out how format as phone number*/}
@@ -207,10 +230,24 @@ class ContactRow extends Component {
 						name="phone"
 						type = "text"
 						class = "form-control"
+<<<<<<< HEAD
 						value =	{
 							(!this.state.isEdit)
 							? (this.props.contact.phone|| "")
 							: this.state.Phone}
+=======
+						value =	{this.props.contact.phone || ""}
+						onChange = {this.editData}/>
+				</td>
+					{/*TODO(Levi): Find out how format as phone number*/}
+				<td>
+					<input
+						disabled = {!this.state.isEdit}
+						name="email"
+						type = "text"
+						class ="form-control"
+						value =	{this.props.contact.email || ""}
+>>>>>>> a63747fe5aef76f427a1b11801dc3f904bf434bf
 						onChange = {this.editData}/>
 				</td>
 
@@ -234,7 +271,11 @@ class ContactTable extends Component {
 			(contact) => {
 				let fullName = contact.fname + " " + contact.lname;
 				fullName = fullName.toLowerCase();
+<<<<<<< HEAD
 					if(fullName.includes(this.props.searchText.toLowerCase()) == false) {
+=======
+					if(fullName.includes(this.props.searchText.toLowerCase()) === false) {
+>>>>>>> a63747fe5aef76f427a1b11801dc3f904bf434bf
 						return;
 					}
 					rows.push(

@@ -4,6 +4,8 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
 import TextFieldGroup from "../common/TextFieldGroup";
+import Signup from "../../img/signup.png";
+
 
 class Register extends Component {
   constructor() {
@@ -51,12 +53,13 @@ const newUser = {
     const { errors } = this.state;
 
     return (
-      <div className="register">
+      <div className="registerLoginPage">
+        <div className="register">
         <div className="container">
           <div className="row">
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Sign Up</h1>
-              <p className="lead text-center">Create Your Contact App Account</p>
+            <div className="col-md-4 m-auto">
+              <h1><img src={Signup}></img></h1>
+              {/*<p className="lead text-center">Create Your Contact App Account</p>}
               {/* Binding this form above as well submit */}
               {/* noValidate onSubmit removes html5 validations to ensure my custom validations display instead */}
               <form noValidate onSubmit={this.onSubmit}> 
@@ -75,7 +78,7 @@ const newUser = {
                   value={this.state.email}
                   onChange={this.onChange}
                   error={errors.email}
-                  info="This Site Uses Gravatar So If You Want A Profile Image, Use A Gravatar Email"
+                  //info="This Site Uses Gravatar So If You Want A Profile Image, Use A Gravatar Email"
                 />
 
                 <TextFieldGroup 
@@ -96,10 +99,11 @@ const newUser = {
                   error={errors.password2}
                 />
 
-                <input type="submit" className="btn btn-info btn-block mt-4" />
+                <input type="submit" className="btn btn-warning btn-block mt-4"/>
               </form>
             </div>
           </div>
+        </div>
         </div>
       </div>
     );

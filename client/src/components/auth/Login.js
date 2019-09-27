@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
+import LoginLogo from "../../img/login.png";
 
 class Login extends Component {
   constructor() {
@@ -52,13 +53,14 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
+      <div className="registerLoginPage">
       <div className="login">
         <div className="container">
           <div className="row">
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Log In</h1>
+            <div className="col-md-4 m-auto">
+              <h1><img src={LoginLogo}></img></h1>
               <p className="lead text-center">
-                Sign in to your DevConnector account
+  
               </p>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
@@ -78,11 +80,12 @@ class Login extends Component {
                   onChange={this.onChange}
                   error={errors.password}
                 />
-                <input type="submit" className="btn btn-info btn-block mt-4" />
+                <input type="submit" className="btn btn-warning btn-block mt-4" />
               </form>
             </div>
           </div>
         </div>
+      </div>
       </div>
     );
   }

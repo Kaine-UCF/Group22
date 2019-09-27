@@ -3,6 +3,7 @@ import Dropdown from 'react-bootstrap/DropdownButton'
 import Button from 'react-bootstrap/Button'
 import Form from "react-bootstrap/Form"
 import "bootstrap/dist/js/bootstrap.bundle"
+import ContactLogo from "../../img/contacts.png"
 // Contact name, [Picture]
 // Phone number. Email address
 // [date added]
@@ -86,7 +87,8 @@ class Contact extends Component {
 	{
 		return (
 			<div>
-			<h1> Contacts </h1>
+			<img src={ContactLogo} height="50" style={{paddingRight:'1200px'}}/>
+			<div>
 				<SearchBar
 					search={this.search}/>
 				<NewContact
@@ -96,6 +98,7 @@ class Contact extends Component {
 					searchText = {this.state.searchText}
 					onDelete = {this.onDelete}
 					editContact = {this.editContact}/>
+			</div>
 			</div>
 		);
 	}
@@ -346,7 +349,7 @@ class NewContact extends Component {
 					</Form.Group>
 					<button
 						type="submit"
-						className="btn btn-success btn-sm"
+						className="btn btn-primary btn-sm"
 						onClick ={this.handleSubmit}>
 						<b><span aria-label="plus">
 						Add Contact

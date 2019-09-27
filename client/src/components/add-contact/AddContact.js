@@ -222,8 +222,9 @@ class ContactTable extends Component {
 		temp.sort((a,b) => (a.fname + a.lname) > (b.fname + b.lname) ? 1 : -1)
 		this.props.contacts.forEach(
 			(contact) => {
-				let fullName = contact.fName + " " + contact.lname;
-					if(fullName.includes(this.props.searchText) === false) {
+				let fullName = contact.fname + " " + contact.lname;
+				fullName = fullName.toLowerCase();
+					if(fullName.includes(this.props.searchText.toLowerCase()) === false) {
 						return;
 					}
 					rows.push(

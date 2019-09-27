@@ -3,7 +3,8 @@ const isEmpty = require("./is-empty.js")
 
 module.exports = function validateContactCreation(data) {
     let errors = {};
-
+    //console.log("WE GOT HERE! YEETS")
+    console.log(data);
     data.fname = !isEmpty(data.fname) ? data.fname : "";
     data.lname = !isEmpty(data.lname) ? data.lname : "";
     data.phone = !isEmpty(data.phone) ? data.phone : "";

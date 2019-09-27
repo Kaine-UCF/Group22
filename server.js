@@ -19,6 +19,8 @@ const db = require("./config/keys").mongoURI;
 
 // Passport Middleware:
 app.use(passport.initialize());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 // Passport Config:
 require("./config/passport.js")(passport);

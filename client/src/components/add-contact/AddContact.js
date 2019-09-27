@@ -87,7 +87,7 @@ class Contact extends Component {
 	{
 		return (
 			<div>
-			<img src={ContactLogo} height="50" style={{paddingRight:'1100px'}}/>
+			<img src={ContactLogo} height="50" style={{paddingRight:'1200px'}}/>
 			<div>
 				<SearchBar
 					search={this.search}/>

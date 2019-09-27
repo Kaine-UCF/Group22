@@ -7,6 +7,7 @@ import Spinner from '../common/Spinner';
 import ProfileActions from './ProfileActions';
 import Experience from './Experience';
 import Education from './Education';
+import addContactLogo from "../../img/addContact.png";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -48,8 +49,8 @@ class Dashboard extends Component {
           <div>
             <p className="lead text-muted">Welcome {user.name}</p>
             <p>You don't have any contacts yet!</p>
-            <Link to="/add-contact" className="btn btn-lg btn-info">
-              Add Contact
+            <Link to="/add-contact" className="btn btn-lg btn-primary">
+              <img src={addContactLogo}></img>
             </Link>
           </div>
         );

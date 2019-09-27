@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import { clearCurrentProfile } from '../../actions/profileActions';
+import Pokedex from "../../img/pokedex.png";
 
 class Navbar extends Component {
   onLogoutClick(e) {
@@ -65,7 +66,7 @@ class Navbar extends Component {
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            Dev Space
+          <a><img src={Pokedex}></img></a>
           </Link>
           <button
             className="navbar-toggler"

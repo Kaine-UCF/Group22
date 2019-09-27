@@ -4,7 +4,27 @@ img {
 
 .landing {
   position: relative;
-  background: url('./img/showcase.jpg') no-repeat;
+  background: url('./img/globe.gif') no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  margin-top: -24px;
+  margin-bottom: -50px;
+}
+
+.registerLoginPage {
+  position: relative;
+  background: url('./img/globe.gif') no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  margin-top: -24px;
+  margin-bottom: -50px;
+}
+
+.contactsPage {
+  position: relative;
+  background: url('./img/contactsBG.gif') no-repeat;
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -17,7 +37,7 @@ img {
 }
 
 .dark-overlay {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.1);
   position: absolute;
   top: 0;
   left: 0;
@@ -37,3 +57,4 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -309,4 +309,4 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
   withRouter(CreateProfile)
-);
+);*/

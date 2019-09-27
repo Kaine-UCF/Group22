@@ -87,18 +87,18 @@ class Contact extends Component {
 	{
 		return (
 			<div>
-			<img src={ContactLogo} height="50" style={{paddingRight:'1200px'}}/>
-			<div>
-				<SearchBar
-					search={this.search}/>
-				<NewContact
-					createNewContact = {this.createNewContact}/>
-				<ContactTable
-					contacts = {this.state.contacts}
-					searchText = {this.state.searchText}
-					onDelete = {this.onDelete}
-					editContact = {this.editContact}/>
-			</div>
+				<img src={ContactLogo} height="50" />
+				<div>
+					<SearchBar
+						search={this.search}/>
+					<NewContact
+						createNewContact = {this.createNewContact}/>
+					<ContactTable
+						contacts = {this.state.contacts}
+						searchText = {this.state.searchText}
+						onDelete = {this.onDelete}
+						editContact = {this.editContact}/>
+				</div>
 			</div>
 		);
 	}
@@ -110,18 +110,26 @@ class ContactRow extends Component {
 		this.state = {
 			isEdit: false,
 			_id:this.props.contact._id,
-			fname: "",
-			lname: "",
-			phone: "",
-			email: ""
+			isShiny:""
 		}
 	}
 	onDelete = ()=> {
-		this.props.onDelete(this.props.contact);
+
+		this.props.onDelete(this.state);
 	}
 	onModify = () =>  {
 		if(this.state.isEdit)
 		{
+			let contact = {
+				fname:"",
+				lname:"",
+				email:"",
+				phone:"",
+				_id:"",
+				isShiny:"",
+
+			}
+			console.log(this.state)
 			this.props.editContact(this.props.contact);
 		}
 		this.setState({isEdit:!this.state.isEdit});
@@ -131,6 +139,9 @@ class ContactRow extends Component {
 			[e.target.name]:e.target.value
 		})
 	}
+	makeShiny = () => {
+		this.setState({isShiny:"table-warning"})
+	}
  	render() {
 		let editButton;
 		if(!this.state.isEdit)
@@ -139,7 +150,8 @@ class ContactRow extends Component {
 				<Dropdown title = "⚙️" variant = "outline-primary">
 					<div className="d-flex flex-column">
 						 <Button variant="danger" onClick={this.onDelete} block><span aria-label="police">Delete?</span></Button>
-						 <Button variant="warning" onClick={this.onModify} block>Edit</Button>
+						 <Button variant="primary" onClick={this.onModify} block>Edit</Button>
+						 <Button variant="warning" onClick ={this.makeShiny} block>Make Shiny</Button>
 					</div>
 				</Dropdown>
 			)
@@ -151,45 +163,57 @@ class ContactRow extends Component {
 		}
 
 		return (
-			<tr>
+			<tr class={this.state.isShiny}>
 				<td>
 					<input
-						disabled = {true}
+						disabled = {!this.state.isEdit}
 						name="fname"
 						type = "text"
 						class ="form-control"
-						value =	{this.props.contact.fname || ""}
+						value =	{
+							(!this.state.isEdit)
+							? (this.props.contact.fname || "")
+							: this.state.fName}
 						onChange = {this.editData}/>
 				</td>
 				<td>
 					<input
-						disabled = {true}
+						disabled = {!this.state.isEdit}
 						name="lname"
 						type = "text"
 						class ="form-control"
 						value =	{
-							this.props.contact.lname || ""}
+							(!this.state.isEdit)
+							? (this.props.contact.lname || "")
+							: this.state.lName}
 						onChange = {this.editData}/>
 				</td>
+				{/*TODO(Levi): Find out how format as phone number*/}
+			<td>
+			<input
+				disabled = {!this.state.isEdit}
+				name="email"
+				type = "text"
+				class ="form-control"
+				value =	{
+					(!this.state.isEdit)
+					? (this.props.contact.email || "")
+					: this.state.Email}
+				onChange = {this.editData}/>
+			</td>
 				<td>
 					<input
-						disabled = {true}
+						disabled = {!this.state.isEdit}
 						name="phone"
 						type = "text"
 						class = "form-control"
-						value =	{this.props.contact.phone || ""}
+						value =	{
+							(!this.state.isEdit)
+							? (this.props.contact.phone|| "")
+							: this.state.Phone}
 						onChange = {this.editData}/>
 				</td>
-					{/*TODO(Levi): Find out how format as phone number*/}
-				<td>
-					<input
-						disabled = {true}
-						name="email"
-						type = "text"
-						class ="form-control"
-						value =	{this.props.contact.email || ""}
-						onChange = {this.editData}/>
-				</td>
+
 				<td>
 				{editButton}
 				</td>
@@ -208,8 +232,9 @@ class ContactTable extends Component {
 		temp.sort((a,b) => (a.fname + a.lname) > (b.fname + b.lname) ? 1 : -1)
 		this.props.contacts.forEach(
 			(contact) => {
-				let fullName = contact.fName + " " + contact.lname;
-					if(fullName.includes(this.props.searchText) === false) {
+				let fullName = contact.fname + " " + contact.lname;
+				fullName = fullName.toLowerCase();
+					if(fullName.includes(this.props.searchText.toLowerCase()) == false) {
 						return;
 					}
 					rows.push(
@@ -224,7 +249,7 @@ class ContactTable extends Component {
 		return (
 			<table className ="table table-hover">
 				<thead>
-					<tr>
+					<tr className="primary">
 						<th>
 							<i className="fa fa-fw">
 							</i>
@@ -238,12 +263,12 @@ class ContactTable extends Component {
 						<th>
 							<i className="fa fa-fw">
 							</i>
-						<span aria-label="phone">📞</span>	Phone
+							 <span aria-label="phone">📧</span>Email
 						</th>
 						<th>
 							<i className="fa fa-fw">
 							</i>
-							 <span aria-label="phone">📧</span>Email
+						<span aria-label="phone">📞</span>	Phone
 						</th>
 					</tr>
 				</thead>

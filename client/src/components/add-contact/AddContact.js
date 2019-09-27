@@ -53,7 +53,7 @@ class Contact extends Component {
 				console.log(this.state.contacts)
 	}
 	editContact = (c) => {
-		
+		console.log(c)
 		fetch("http://localhost:3000/api/contacts/update"+c._id,
 			{
 				method: 'POST', // or 'PUT'
@@ -107,10 +107,10 @@ class ContactRow extends Component {
 		this.state = {
 			isEdit: false,
 			_id:this.props.contact._id,
-			fname: this.props.contact.fname,
-			lname: this.props.contact.lname,
-			phone: this.props.contact.phone,
-			email: this.props.contact.email
+			fname: "",
+			lname: "",
+			phone: "",
+			email: ""
 		}
 	}
 	onDelete = ()=> {
@@ -119,14 +119,7 @@ class ContactRow extends Component {
 	onModify = () =>  {
 		if(this.state.isEdit)
 		{
-			let contact = {
-				_id: this.state._id,
-				fname: this.state.fname,
-				lname: this.state.lname,
-				phone: this.state.phone,
-				email: this.state.email
-			}
-			this.props.editContact(contact);
+			this.props.editContact(this.props.contact);
 		}
 		this.setState({isEdit:!this.state.isEdit});
 	}
@@ -158,43 +151,40 @@ class ContactRow extends Component {
 			<tr>
 				<td>
 					<input
-						disabled = {!this.state.isEdit}
+						disabled = {true}
 						name="fname"
 						type = "text"
 						class ="form-control"
-						value =	{!this.state.isEdit ?
-							this.props.contact.fname :
-							this.state.fname}
+						value =	{this.props.contact.fname || ""}
 						onChange = {this.editData}/>
 				</td>
 				<td>
 					<input
-						disabled = {!this.state.isEdit}
+						disabled = {true}
 						name="lname"
 						type = "text"
 						class ="form-control"
-						value =	{!this.state.isEdit ?
-							this.props.contact.lname :
-							this.state.lname}
+						value =	{
+							this.props.contact.lname || ""}
 						onChange = {this.editData}/>
 				</td>
 				<td>
 					<input
-						disabled = {!this.state.isEdit}
+						disabled = {true}
 						name="phone"
 						type = "text"
 						class = "form-control"
-						value =	{!this.state.isEdit ? this.props.contact.phone : this.state.phone}
+						value =	{this.props.contact.phone || ""}
 						onChange = {this.editData}/>
 				</td>
 					{/*TODO(Levi): Find out how format as phone number*/}
 				<td>
 					<input
-						disabled = {!this.state.isEdit}
+						disabled = {true}
 						name="email"
 						type = "text"
 						class ="form-control"
-						value =	{!this.state.isEdit ? this.props.contact.email : this.state.email}
+						value =	{this.props.contact.email || ""}
 						onChange = {this.editData}/>
 				</td>
 				<td>

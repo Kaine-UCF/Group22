@@ -87,18 +87,26 @@ class Contact extends Component {
 	{
 		return (
 			<div>
-			<img src={ContactLogo} height="50" style={{paddingRight:'1200px'}}/>
-			<div>
-				<SearchBar
-					search={this.search}/>
-				<NewContact
-					createNewContact = {this.createNewContact}/>
-				<ContactTable
-					contacts = {this.state.contacts}
-					searchText = {this.state.searchText}
-					onDelete = {this.onDelete}
-					editContact = {this.editContact}/>
-			</div>
+				<div class="col-xs-6">
+					<img src={ContactLogo} class="ContactLogo"/>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-6" class="Center">
+							<SearchBar
+									search={this.search}/>
+						</div>
+					</div>
+				</div>
+				<div>
+					<NewContact
+						createNewContact = {this.createNewContact}/>
+					<ContactTable
+						contacts = {this.state.contacts}
+						searchText = {this.state.searchText}
+						onDelete = {this.onDelete}
+						editContact = {this.editContact}/>
+				</div>
 			</div>
 		);
 	}
@@ -165,9 +173,7 @@ class ContactRow extends Component {
 						name="fname"
 						type = "text"
 						class ="form-control"
-						value =	{!this.state.isEdit ?
-							this.props.contact.fname :
-							this.state.fname}
+						value =	{this.props.contact.fname || ""}
 						onChange = {this.editData}/>
 				</td>
 				<td>
@@ -176,9 +182,7 @@ class ContactRow extends Component {
 						name="lname"
 						type = "text"
 						class ="form-control"
-						value =	{!this.state.isEdit ?
-							this.props.contact.lname :
-							this.state.lname}
+						value =	{this.props.contact.lname || ""}
 						onChange = {this.editData}/>
 				</td>
 				<td>
@@ -187,7 +191,7 @@ class ContactRow extends Component {
 						name="phone"
 						type = "text"
 						class = "form-control"
-						value =	{!this.state.isEdit ? this.props.contact.phone : this.state.phone}
+						value =	{this.props.contact.phone || ""}
 						onChange = {this.editData}/>
 				</td>
 					{/*TODO(Levi): Find out how format as phone number*/}
@@ -197,7 +201,7 @@ class ContactRow extends Component {
 						name="email"
 						type = "text"
 						class ="form-control"
-						value =	{!this.state.isEdit ? this.props.contact.email : this.state.email}
+						value =	{this.props.contact.email || ""}
 						onChange = {this.editData}/>
 				</td>
 				<td>

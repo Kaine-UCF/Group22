@@ -1,4 +1,4 @@
-import axios from 'axios';
+/*import axios from 'axios';
 
 import {
   ADD_POST,
@@ -160,4 +160,4 @@ export const clearErrors = () => {
   return {
     type: CLEAR_ERRORS
   };
-};
+};*/

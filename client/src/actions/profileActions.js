@@ -59,7 +59,7 @@ export const createProfile = (profileData, history) => dispatch => {
       })
     );
 };
-
+/*
 // Add experience
 export const addExperience = (expData, history) => dispatch => {
   axios
@@ -139,7 +139,7 @@ export const getProfiles = () => dispatch => {
         payload: null
       })
     );
-};
+};*/
 
 // Delete account & profile
 export const deleteAccount = () => dispatch => {

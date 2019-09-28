@@ -54,7 +54,7 @@ class Contact extends Component {
 				console.log(this.state.contacts)
 	}
 	editContact = (c) => {
-		
+		console.log(c)
 		fetch("http://localhost:3000/api/contacts/update"+c._id,
 			{
 				method: 'POST', // or 'PUT'
@@ -118,26 +118,27 @@ class ContactRow extends Component {
 		this.state = {
 			isEdit: false,
 			_id:this.props.contact._id,
-			fname: this.props.contact.fname,
-			lname: this.props.contact.lname,
-			phone: this.props.contact.phone,
-			email: this.props.contact.email
+			isShiny:""
 		}
 	}
 	onDelete = ()=> {
-		this.props.onDelete(this.props.contact);
+
+		this.props.onDelete(this.state);
 	}
 	onModify = () =>  {
 		if(this.state.isEdit)
 		{
 			let contact = {
-				_id: this.state._id,
-				fname: this.state.fname,
-				lname: this.state.lname,
-				phone: this.state.phone,
-				email: this.state.email
+				fname:"",
+				lname:"",
+				email:"",
+				phone:"",
+				_id:"",
+				isShiny:"",
+
 			}
-			this.props.editContact(contact);
+			console.log(this.state)
+			this.props.editContact(this.props.contact);
 		}
 		this.setState({isEdit:!this.state.isEdit});
 	}
@@ -145,6 +146,9 @@ class ContactRow extends Component {
 		this.setState({
 			[e.target.name]:e.target.value
 		})
+	}
+	makeShiny = () => {
+		this.setState({isShiny:"table-warning"})
 	}
  	render() {
 		let editButton;
@@ -154,7 +158,8 @@ class ContactRow extends Component {
 				<Dropdown title = "⚙️" variant = "outline-primary">
 					<div className="d-flex flex-column">
 						 <Button variant="danger" onClick={this.onDelete} block><span aria-label="police">Delete?</span></Button>
-						 <Button variant="warning" onClick={this.onModify} block>Edit</Button>
+						 <Button variant="primary" onClick={this.onModify} block>Edit</Button>
+						 <Button variant="warning" onClick ={this.makeShiny} block>Make Shiny</Button>
 					</div>
 				</Dropdown>
 			)
@@ -166,14 +171,17 @@ class ContactRow extends Component {
 		}
 
 		return (
-			<tr>
+			<tr class={this.state.isShiny}>
 				<td>
 					<input
 						disabled = {!this.state.isEdit}
 						name="fname"
 						type = "text"
 						class ="form-control"
-						value =	{this.props.contact.fname || ""}
+						value =	{
+							(!this.state.isEdit)
+							? (this.props.contact.fname || "")
+							: this.state.fName}
 						onChange = {this.editData}/>
 				</td>
 				<td>
@@ -182,28 +190,38 @@ class ContactRow extends Component {
 						name="lname"
 						type = "text"
 						class ="form-control"
-						value =	{this.props.contact.lname || ""}
+						value =	{
+							(!this.state.isEdit)
+							? (this.props.contact.lname || "")
+							: this.state.lName}
 						onChange = {this.editData}/>
 				</td>
+				{/*TODO(Levi): Find out how format as phone number*/}
+			<td>
+			<input
+				disabled = {!this.state.isEdit}
+				name="email"
+				type = "text"
+				class ="form-control"
+				value =	{
+					(!this.state.isEdit)
+					? (this.props.contact.email || "")
+					: this.state.Email}
+				onChange = {this.editData}/>
+			</td>
 				<td>
 					<input
 						disabled = {!this.state.isEdit}
 						name="phone"
 						type = "text"
 						class = "form-control"
-						value =	{this.props.contact.phone || ""}
+						value =	{
+							(!this.state.isEdit)
+							? (this.props.contact.phone|| "")
+							: this.state.Phone}
 						onChange = {this.editData}/>
 				</td>
-					{/*TODO(Levi): Find out how format as phone number*/}
-				<td>
-					<input
-						disabled = {!this.state.isEdit}
-						name="email"
-						type = "text"
-						class ="form-control"
-						value =	{this.props.contact.email || ""}
-						onChange = {this.editData}/>
-				</td>
+
 				<td>
 				{editButton}
 				</td>
@@ -224,7 +242,7 @@ class ContactTable extends Component {
 			(contact) => {
 				let fullName = contact.fname + " " + contact.lname;
 				fullName = fullName.toLowerCase();
-					if(fullName.includes(this.props.searchText.toLowerCase()) === false) {
+					if(fullName.includes(this.props.searchText.toLowerCase()) == false) {
 						return;
 					}
 					rows.push(
@@ -239,7 +257,7 @@ class ContactTable extends Component {
 		return (
 			<table className ="table table-hover">
 				<thead>
-					<tr>
+					<tr className="primary">
 						<th>
 							<i className="fa fa-fw">
 							</i>
@@ -253,12 +271,12 @@ class ContactTable extends Component {
 						<th>
 							<i className="fa fa-fw">
 							</i>
-						<span aria-label="phone">📞</span>	Phone
+							 <span aria-label="phone">📧</span>Email
 						</th>
 						<th>
 							<i className="fa fa-fw">
 							</i>
-							 <span aria-label="phone">📧</span>Email
+						<span aria-label="phone">📞</span>	Phone
 						</th>
 					</tr>
 				</thead>

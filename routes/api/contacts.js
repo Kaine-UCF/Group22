@@ -88,7 +88,6 @@ router.post('/update/:id',/* passport.authenticate("jwt", { session: false }),*/
             contact.lname = req.body.lname;
             contact.phone = req.body.phone;
             contact.email = req.body.email;
-
             contact.save()
                 .then(() => res.json(contact)) // or "Contact Updated!"
                 .catch(err => res.status(400).json('Error: ' + err));

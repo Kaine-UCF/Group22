@@ -10,7 +10,6 @@ import ContactLogo from "../../img/contacts.png"
 class Contact extends Component {
 	constructor(props) {
 		super(props);
-
 		//TODO(Levi): Make actual database call to load the contacts into the state.contacts list
 		this.loadContacts();
 		this.state = {
@@ -20,10 +19,18 @@ class Contact extends Component {
 		}
 	}
 	loadContacts = () => {
-		fetch("http://localhost:3000/api/contacts/list")
+		let body = {id: localStorage.getItem("userID")};
+		fetch("http://localhost:3000/api/contacts/list", {
+			method: 'POST',
+			body: JSON.stringify(body),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
 		.then(res => {
 			return res.json()
 		}).then( str => {
+			console.log("In Delete:" + (new Date()).getMilliseconds())
 			this.setState({contacts : str})
 		});
 	}
@@ -63,7 +70,6 @@ class Contact extends Component {
 					'Content-Type': 'application/json'
 				}
 			})
-		this.loadContacts();
 
 		//TODO(Levi) Make database call to edit the contact:
 	/*	const index = this.state.contacts.map((e) => { return e.key;}).indexOf(c.key);
@@ -73,6 +79,7 @@ class Contact extends Component {
 		console.log(this.state.contacts)*/
 	}
 	onDelete = (c) => {
+		console.log(c._id)
 		fetch("http://localhost:3000/api/contacts/"+c._id,
 			{
 				method: 'DELETE', // or 'PUT'
@@ -80,8 +87,17 @@ class Contact extends Component {
 				headers: {
 					'Content-Type': 'application/json'
 				}
-			})
+			}).then(res => {
+				return res.json()
+			}
+				).then( str =>
+					console.log("In Delete:" + (new Date()).getMilliseconds())
+		//			this.setState({contacts : str})
+				);
 		this.loadContacts();
+	}
+	componentDidMount() {
+
 	}
 	render ()
 	{
@@ -115,15 +131,15 @@ class ContactRow extends Component {
 	constructor (props){
 		super(props)
 		this.onDelete = this.onDelete.bind(this);
+		console.log(this.props.contact)
 		this.state = {
 			isEdit: false,
 			_id:this.props.contact._id,
 			isShiny:""
 		}
 	}
-	onDelete = ()=> {
-
-		this.props.onDelete(this.state);
+	onDelete = () => {
+		this.props.onDelete(this.props.contact);
 	}
 	onModify = () =>  {
 		if(this.state.isEdit)
@@ -137,7 +153,6 @@ class ContactRow extends Component {
 				isShiny:"",
 
 			}
-			console.log(this.state)
 			this.props.editContact(this.props.contact);
 		}
 		this.setState({isEdit:!this.state.isEdit});
@@ -221,7 +236,6 @@ class ContactRow extends Component {
 							: this.state.Phone}
 						onChange = {this.editData}/>
 				</td>
-
 				<td>
 				{editButton}
 				</td>
@@ -319,6 +333,7 @@ class NewContact extends Component {
 			lname: this.state.lname,
 			email: this.state.email,
 			phone: this.state.phone,
+			owner: localStorage.getItem("userID")
 		}
 		this.props.createNewContact(newContact);
 		this.setState({

@@ -92,7 +92,7 @@ class Contact extends Component {
 				</div>
 				<div class="container">
 					<div class="row">
-						<div class="col-xs-6" class="Center">
+						<div class="col-xs-6" class="CenterAlign">
 							<SearchBar
 									search={this.search}/>
 						</div>

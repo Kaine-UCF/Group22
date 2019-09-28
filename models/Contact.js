@@ -26,6 +26,10 @@ const ContactSchema = new Schema({
     owner: {
         type: String,
         required: true
+    },
+    isShiny: {
+        type: Boolean,
+        required: true
     }
 });
 

@@ -21,7 +21,7 @@ const Contact = require("../../models/Contact");
 router.get('/test', (req, res) => res.json({ msg: 'Contacts Works' }));
 
 
-router.post('/list', (req, res) => {
+router.post('/list', passport.authenticate("jwt", { session: false }), (req, res) => {
   console.log(req.body)
   Contact.find({owner : req.body.id})
   .then( contacts => {
@@ -34,7 +34,7 @@ router.post('/list', (req, res) => {
 // @route   POST api/contacts/create
 // @desc    Create a contact
 // @access  Private
-router.post("/create",/* passport.authenticate("jwt", { session: false }),*/
+router.post("/create", passport.authenticate("jwt", { session: false }),
         (req, res) => {
           console.log(req)
     const {errors, isValid} = validateContactCreation(req.body);
@@ -48,7 +48,8 @@ router.post("/create",/* passport.authenticate("jwt", { session: false }),*/
             lname: req.body.lname,
             phone: req.body.phone,
             email: req.body.email,
-            owner: req.body.owner
+            owner: req.body.owner,
+            isShiny: false
         });
 
         newContact
@@ -62,7 +63,7 @@ router.post("/create",/* passport.authenticate("jwt", { session: false }),*/
 // @route   DELETE api/contacts/:id
 // @desc    Delete contact by its ObjectId
 // @access  Private
-router.delete('/:id',/* passport.authenticate("jwt", { session: false }), */function(req, res, next) {
+router.delete('/:id', passport.authenticate("jwt", { session: false }), function(req, res, next) {
     Contact.findByIdAndDelete(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
@@ -73,7 +74,7 @@ router.delete('/:id',/* passport.authenticate("jwt", { session: false }), */func
 // @route   POST api/contacts/update/:id
 // @desc    Update contact by its ObjectId
 // @access  Private
-router.post('/update/:id',/* passport.authenticate("jwt", { session: false }),*/
+router.post('/update/:id', passport.authenticate("jwt", { session: false }),
   function(req, res, next) {
     const {errors, isValid} = validateContactCreation(req.body);
       console.log(req)
@@ -88,6 +89,7 @@ router.post('/update/:id',/* passport.authenticate("jwt", { session: false }),*/
             contact.lname = req.body.lname;
             contact.phone = req.body.phone;
             contact.email = req.body.email;
+            contact.isShiny = req.body.isShiny;
             contact.save()
                 .then(() => res.json(contact)) // or "Contact Updated!"
                 .catch(err => res.status(400).json('Error: ' + err));

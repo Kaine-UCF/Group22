@@ -34,13 +34,15 @@ class Contact extends Component {
 			method: 'POST',
 			body: JSON.stringify(body),
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.getItem('jwtToken')
 			}
 		})
 		.then(res => {
 			return res.json()
 		}).then( str => {
-			console.log("In Load:" + (new Date()).getMilliseconds())
+			console.log(str)
+
 			this.setState({contacts : str})
 		});
 	}
@@ -55,7 +57,8 @@ class Contact extends Component {
 				method: 'POST', // or 'PUT'
 				body: JSON.stringify(c), // data can be `string` or {object}!
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': localStorage.getItem('jwtToken')
 				}
 			}
 		).then(response => {
@@ -78,7 +81,8 @@ class Contact extends Component {
 				method: 'POST', // or 'PUT'
 				body: JSON.stringify(c), // data can be `string` or {object}!
 				headers: {
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': localStorage.getItem('jwtToken')
 				}
 			})
 
@@ -89,14 +93,15 @@ class Contact extends Component {
 		this.setState({contacts:copy})
 		console.log(this.state.contacts)*/
 	}
-	onDelete =(c)=> {
+	onDelete = (c) => {
 		console.log("Deleting... "+ c._id)
 			const t =  fetch(URL+"/api/contacts/"+c._id,
 					{
 					method: 'DELETE', // or 'PUT'
 					//	body: JSON.stringify(c), // data can be `string` or {object}!
 					headers: {
-						'Content-Type': 'application/json'
+						'Content-Type': 'application/json',
+						'Authorization': localStorage.getItem('jwtToken')
 					}}).then((e) => {
 					})
 		return t;
@@ -110,7 +115,7 @@ class Contact extends Component {
 		return (
 
 			<div>
-				<i>{localStorage.getItem("userID")}</i>
+				<h1>{"Welcome, user "+ localStorage.getItem("userID") + "!"}</h1>
 				<div className="col-xs-6">
 					<img src={ContactLogo} className="ContactLogo"/>
 				</div>
@@ -144,7 +149,7 @@ class ContactRow extends Component {
 		this.state = {
 			isEdit: false,
 			_id:this.props.contact._id,
-			isShiny: "false"
+			isShiny: true
 		}
 	}
 	onDelete = () => {
@@ -152,18 +157,21 @@ class ContactRow extends Component {
 		this.props.onDelete(this.props.contact)
 		.then( resp => this.props.loadContacts())
 	}
+	makeChange = () => {
+		const s = this.state;
+		for(var prop in s)
+		{
+			if(Object.prototype.hasOwnProperty.call(s, prop))
+			 {
+					this.props.contact[prop] = s[prop];
+			 }
+		}
+		this.props.editContact(this.props.contact);
+	}
 	onModify = () =>  {
 		if(this.state.isEdit)
 		{
-			const s = this.state;
-			for(var prop in s)
-			{
-				if(Object.prototype.hasOwnProperty.call(s, prop))
-				 {
-					  this.props.contact[prop] = s[prop];
-				 }
-			}
-			this.props.editContact(this.props.contact);
+			this.makeChange();
 		}
 		this.setState({isEdit:!this.state.isEdit});
 	}
@@ -173,7 +181,7 @@ class ContactRow extends Component {
 		})
 	}
 	makeShiny = () => {
-		this.setState({isShiny:"table-warning"})
+		this.setState({isShiny:!this.state.isShiny}, this.makeChange())
 	}
  	render() {
 		let editButton;
@@ -183,7 +191,12 @@ class ContactRow extends Component {
 				<Dropdown drop="left" title={<img src={SettingIcon} className="ContactPageSettingIcon"></img>} variant = "outline-primary">
 					<div className="d-flex flex-column">
 						 <Button variant="primary" onClick={this.onModify} block><img src={EditContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Edit</Button>
-						 <Button variant="warning" onClick ={this.makeShiny} block><img src={FavContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Make Shiny</Button>
+						 <Button variant="warning"
+							onClick ={this.makeShiny}
+							block><img
+							src={FavContact}
+							className="ContactPageSettingOption"
+							style={{marginRight: '5px'}}></img>{this.state.isShiny ? "Shiny":"Dull" }</Button>
 						 <Button variant="danger" onClick={this.onDelete} block><span aria-label="police"><img src={DeleteContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Delete?</span></Button>
 					</div>
 				</Dropdown>
@@ -196,7 +209,7 @@ class ContactRow extends Component {
 		}
 
 		return (
-			<tr className={this.state.isShiny || ""}>
+			<tr className={(this.state.isShiny) ? "": "bg-warning"|| ""}>
 				<td>
 					<input
 						disabled = {!this.state.isEdit || "" }
@@ -263,8 +276,6 @@ class ContactTable extends Component {
 		//this.props.loadContacts();
 		// Do some js stuff outside of the return of jsx.
 		var rows = [];
-		//TODO(Levi): search should not be case sensitive
-		// edit this line
 		var temp = this.props.contacts;
 		temp.sort((a,b) => (a.fname + a.lname) > (b.fname + b.lname) ? 1 : -1)
 		this.props.contacts.forEach(
@@ -433,13 +444,18 @@ class SearchBar extends Component {
 			searchText:""
 		}
 	}
+	_handleKeyDown = (e) => {
+		if(e.key === 'Enter') {
+			this.handleSubmit();
+		}
+	}
 	handleChange = e => {
 		this.setState({
 			searchText: e.target.value
 		});
 	}
 	handleSubmit = (e) => {
-		e.preventDefault();
+		//e.preventDefault();
 		this.props.search(this.state.searchText)
 	}
 	preventReload = (e) => {
@@ -458,6 +474,7 @@ class SearchBar extends Component {
 					onChange = {this.handleChange}
 			    aria-label="Search"
 					autoFocus={true}
+					onKeyPress = {this._handleKeyDown}
 					/>
 				</Form.Group>
 				<Form.Group as = {Form.Col} md="3">

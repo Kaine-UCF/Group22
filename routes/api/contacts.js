@@ -21,9 +21,9 @@ const Contact = require("../../models/Contact");
 router.get('/test', (req, res) => res.json({ msg: 'Contacts Works' }));
 
 
-router.get('/list', (req, res) => {
-
-  Contact.find()
+router.post('/list', (req, res) => {
+  console.log(req.body)
+  Contact.find({owner : req.body.id})
   .then( contacts => {
     res.json(contacts)
   })
@@ -34,7 +34,7 @@ router.get('/list', (req, res) => {
 // @route   POST api/contacts/create
 // @desc    Create a contact
 // @access  Private
-router.post("/create",/* passport.authenticate("jwt", { session: false }), */
+router.post("/create",/* passport.authenticate("jwt", { session: false }),*/
         (req, res) => {
           console.log(req)
     const {errors, isValid} = validateContactCreation(req.body);
@@ -62,7 +62,7 @@ router.post("/create",/* passport.authenticate("jwt", { session: false }), */
 // @route   DELETE api/contacts/:id
 // @desc    Delete contact by its ObjectId
 // @access  Private
-router.delete('/:id', /*passport.authenticate("jwt", { session: false }),*/ function(req, res, next) {
+router.delete('/:id',/* passport.authenticate("jwt", { session: false }), */function(req, res, next) {
     Contact.findByIdAndDelete(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);

@@ -14,10 +14,10 @@ import DeleteContact from "../../img/delete.png"
 // Contact name, [Picture]
 // Phone number. Email address
 // [date added]
+const URL = "http://localhost:3000";
 class Contact extends Component {
 	constructor(props) {
 		super(props);
-
 		//TODO(Levi): Make actual database call to load the contacts into the state.contacts list
 		this.loadContacts();
 		this.state = {
@@ -27,10 +27,18 @@ class Contact extends Component {
 		}
 	}
 	loadContacts = () => {
-		fetch("http://localhost:3000/api/contacts/list")
+		let body = {id: localStorage.getItem("userID")};
+		fetch(URL+"/api/contacts/list", {
+			method: 'POST',
+			body: JSON.stringify(body),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
 		.then(res => {
 			return res.json()
 		}).then( str => {
+			console.log("In Load:" + (new Date()).getMilliseconds())
 			this.setState({contacts : str})
 		});
 	}
@@ -40,7 +48,7 @@ class Contact extends Component {
 	createNewContact = (c) => {
 		//TODO(Levi): Make actual database call to add contact
 	//	c.key = this.state.contacts.length + 1;
-		fetch("http://localhost:3000/api/contacts/create",
+		fetch(URL+"/api/contacts/create",
 			{
 				method: 'POST', // or 'PUT'
 				body: JSON.stringify(c), // data can be `string` or {object}!
@@ -58,11 +66,12 @@ class Contact extends Component {
 		this.setState ({
 			contacts: this.state.contacts.concat(c)
 		});
-				console.log(this.state.contacts)
+		//		console.log(this.state.contacts)
 	}
 	editContact = (c) => {
-		console.log(c)
-		fetch("http://localhost:3000/api/contacts/update"+c._id,
+		 console.log(c)
+
+		fetch(URL+"/api/contacts/update/"+c._id,
 			{
 				method: 'POST', // or 'PUT'
 				body: JSON.stringify(c), // data can be `string` or {object}!
@@ -70,7 +79,6 @@ class Contact extends Component {
 					'Content-Type': 'application/json'
 				}
 			})
-		this.loadContacts();
 
 		//TODO(Levi) Make database call to edit the contact:
 	/*	const index = this.state.contacts.map((e) => { return e.key;}).indexOf(c.key);
@@ -79,27 +87,34 @@ class Contact extends Component {
 		this.setState({contacts:copy})
 		console.log(this.state.contacts)*/
 	}
-	onDelete = (c) => {
-		fetch("http://localhost:3000/api/contacts/"+c._id,
-			{
-				method: 'DELETE', // or 'PUT'
-			//	body: JSON.stringify(c), // data can be `string` or {object}!
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			})
-		this.loadContacts();
+	onDelete =(c)=> {
+		console.log("Deleting... "+ c._id)
+			const t =  fetch(URL+"/api/contacts/"+c._id,
+					{
+					method: 'DELETE', // or 'PUT'
+					//	body: JSON.stringify(c), // data can be `string` or {object}!
+					headers: {
+						'Content-Type': 'application/json'
+					}}).then((e) => {
+					})
+		return t;
+	}
+	componentDidMount() {
+
 	}
 	render ()
 	{
+
 		return (
+
 			<div>
-				<div class="col-xs-6">
-					<img src={ContactLogo} class="ContactLogo"/>
+				<i>{localStorage.getItem("userID")}</i>
+				<div className="col-xs-6">
+					<img src={ContactLogo} className="ContactLogo"/>
 				</div>
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-6" class="CenterAlign">
+				<div className="container">
+					<div className="row">
+						<div className="col-xs-6" className="CenterAlign">
 							<SearchBar
 									search={this.search}/>
 						</div>
@@ -109,6 +124,7 @@ class Contact extends Component {
 					<NewContact
 						createNewContact = {this.createNewContact}/>
 					<ContactTable
+						loadContacts = {this.loadContacts}
 						contacts = {this.state.contacts}
 						searchText = {this.state.searchText}
 						onDelete = {this.onDelete}
@@ -122,29 +138,29 @@ class ContactRow extends Component {
 	constructor (props){
 		super(props)
 		this.onDelete = this.onDelete.bind(this);
+	//	console.log(this.props.contact)
 		this.state = {
 			isEdit: false,
 			_id:this.props.contact._id,
-			isShiny:""
+			isShiny: "false"
 		}
 	}
-	onDelete = ()=> {
-
-		this.props.onDelete(this.state);
+	onDelete = () => {
+	//	const promise = new Promise()
+		this.props.onDelete(this.props.contact)
+		.then( resp => this.props.loadContacts())
 	}
 	onModify = () =>  {
 		if(this.state.isEdit)
 		{
-			let contact = {
-				fname:"",
-				lname:"",
-				email:"",
-				phone:"",
-				_id:"",
-				isShiny:"",
-
+			const s = this.state;
+			for(var prop in s)
+			{
+				if(Object.prototype.hasOwnProperty.call(s, prop))
+				 {
+					  this.props.contact[prop] = s[prop];
+				 }
 			}
-			console.log(this.state)
 			this.props.editContact(this.props.contact);
 		}
 		this.setState({isEdit:!this.state.isEdit});
@@ -174,22 +190,21 @@ class ContactRow extends Component {
 		else
 		{
 			editButton =
-			<Button variant="success" onClick={this.onModify} >Save Changes</Button>
+			<Button variant="success" onClick={this.onModify}>Save Changes</Button>
 		}
 
 		return (
-			
-			<tr class={this.state.isShiny}>
+			<tr className={this.state.isShiny || ""}>
 				<td>
 					<input
-						disabled = {!this.state.isEdit}
+						disabled = {!this.state.isEdit || "" }
 						name="fname"
 						type = "text"
-						class ="form-control"
+						className ="form-control"
 						value =	{
 							(!this.state.isEdit)
 							? (this.props.contact.fname || "")
-							: this.state.fName}
+							: this.state.fname}
 						onChange = {this.editData}/>
 				</td>
 				<td>
@@ -197,11 +212,11 @@ class ContactRow extends Component {
 						disabled = {!this.state.isEdit}
 						name="lname"
 						type = "text"
-						class ="form-control"
+						className ="form-control"
 						value =	{
 							(!this.state.isEdit)
 							? (this.props.contact.lname || "")
-							: this.state.lName}
+							: this.state.lname}
 						onChange = {this.editData}/>
 				</td>
 				{/*TODO(Levi): Find out how format as phone number*/}
@@ -210,11 +225,11 @@ class ContactRow extends Component {
 				disabled = {!this.state.isEdit}
 				name="email"
 				type = "text"
-				class ="form-control"
+				className ="form-control"
 				value =	{
 					(!this.state.isEdit)
 					? (this.props.contact.email || "")
-					: this.state.Email}
+					: this.state.email}
 				onChange = {this.editData}/>
 			</td>
 				<td>
@@ -222,14 +237,13 @@ class ContactRow extends Component {
 						disabled = {!this.state.isEdit}
 						name="phone"
 						type = "text"
-						class = "form-control"
+						className = "form-control"
 						value =	{
 							(!this.state.isEdit)
 							? (this.props.contact.phone|| "")
-							: this.state.Phone}
+							: this.state.phone}
 						onChange = {this.editData}/>
 				</td>
-
 				<td>
 				{editButton}
 				</td>
@@ -239,7 +253,12 @@ class ContactRow extends Component {
 }
 
 class ContactTable extends Component {
+	constructor(props)
+	{
+		super(props)
+	}
 	render() {
+		//this.props.loadContacts();
 		// Do some js stuff outside of the return of jsx.
 		var rows = [];
 		//TODO(Levi): search should not be case sensitive
@@ -255,7 +274,8 @@ class ContactTable extends Component {
 					}
 					rows.push(
 						<ContactRow
-							key = {contact.key}
+							loadContacts = {this.props.loadContacts}
+							key = {Math.random() * 1000000/*should probably make keys differently*/}
 							contact ={contact}
 							onDelete= {this.props.onDelete}
 							editContact={this.props.editContact}/>
@@ -327,6 +347,7 @@ class NewContact extends Component {
 			lname: this.state.lname,
 			email: this.state.email,
 			phone: this.state.phone,
+			owner: localStorage.getItem("userID")
 		}
 		this.props.createNewContact(newContact);
 		this.setState({
@@ -348,7 +369,7 @@ class NewContact extends Component {
 			<Form  >
 				<Form.Row>
 					<Form.Group as = {Form.Col} md="4">
-						<Form.Label class="font-weight-bold">First name</Form.Label>
+						<Form.Label className="font-weight-bold">First name</Form.Label>
 						<Form.Control
 						type="text"
 						name="fname"
@@ -358,7 +379,7 @@ class NewContact extends Component {
 						/>
 					</Form.Group>
 					<Form.Group as = {Form.Col} md="4">
-						<Form.Label class="font-weight-bold">Last name</Form.Label>
+						<Form.Label className="font-weight-bold">Last name</Form.Label>
 						<Form.Control
 						type="text"
 						name="lname"
@@ -369,7 +390,7 @@ class NewContact extends Component {
 					</Form.Group>
 
 					<Form.Group as = {Form.Col} md="6">
-						<Form.Label class="font-weight-bold">Email </Form.Label>
+						<Form.Label className="font-weight-bold">Email </Form.Label>
 						<Form.Control
 							type="email"
 							placeholder = "@"
@@ -379,7 +400,7 @@ class NewContact extends Component {
 						/>
 					</Form.Group>
 					<Form.Group as = {Form.Col} md="6">
-						<Form.Label class="font-weight-bold">Phone Number </Form.Label>
+						<Form.Label className="font-weight-bold">Phone Number </Form.Label>
 						<Form.Control
 							type="tel"
 							placeholder = "#"
@@ -434,7 +455,7 @@ class SearchBar extends Component {
 					placeholder="Search name"
 					onChange = {this.handleChange}
 			    aria-label="Search"
-					autofocus="true"
+					autoFocus={true}
 					/>
 				</Form.Group>
 				<Form.Group as = {Form.Col} md="3">

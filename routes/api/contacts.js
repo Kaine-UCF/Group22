@@ -48,7 +48,8 @@ router.post("/create",/* passport.authenticate("jwt", { session: false }),*/
             lname: req.body.lname,
             phone: req.body.phone,
             email: req.body.email,
-            owner: req.body.owner
+            owner: req.body.owner,
+            isShiny: false
         });
 
         newContact
@@ -88,6 +89,7 @@ router.post('/update/:id',/* passport.authenticate("jwt", { session: false }),*/
             contact.lname = req.body.lname;
             contact.phone = req.body.phone;
             contact.email = req.body.email;
+            contact.isShiny = req.body.isShiny;
             contact.save()
                 .then(() => res.json(contact)) // or "Contact Updated!"
                 .catch(err => res.status(400).json('Error: ' + err));

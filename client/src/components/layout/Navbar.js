@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
 import { clearCurrentProfile } from '../../actions/profileActions';
 import Pokedex from "../../img/pokedex.png";
+import LogoutIcon from "../../img/logoutIcon.png"
 
 class Navbar extends Component {
   onLogoutClick(e) {
@@ -24,13 +25,8 @@ class Navbar extends Component {
             onClick={this.onLogoutClick.bind(this)}
             className="nav-link"
           >
-            <img
-              className="rounded-circle"
-              src={user.avatar}
-              alt={user.name}
-              style={{ width: '25px', marginRight: '5px' }}
-              title="Profile Picture"
-            />{' '}
+            <img src={LogoutIcon} className="ContactPageIcon"/>
+            {' '}
             Logout
           </a>
         </li>
@@ -56,7 +52,7 @@ class Navbar extends Component {
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
         <div className="container">
           <Link className="navbar-brand" to="/">
-          <a><img src={Pokedex}></img></a>
+          <a><img src={Pokedex} className="NavbarPokedex"/></a>
           </Link>
           <button
             className="navbar-toggler"

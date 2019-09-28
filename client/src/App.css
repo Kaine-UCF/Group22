@@ -9,9 +9,15 @@ img {
   margin-right: auto;
 }
 
-.Center {
+.CenterAlign {
   display: block;
   margin-left: auto;
+  margin-right: auto;
+}
+
+.LeftAlign {
+  display: block;
+  margin-left:0px;
   margin-right: auto;
 }
 

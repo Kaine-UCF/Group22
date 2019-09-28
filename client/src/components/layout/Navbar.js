@@ -29,7 +29,7 @@ class Navbar extends Component {
               src={user.avatar}
               alt={user.name}
               style={{ width: '25px', marginRight: '5px' }}
-              title="You need an avatar connected to your email to display an image"
+              title="Profile Picture"
             />{' '}
             Logout
           </a>
@@ -37,7 +37,7 @@ class Navbar extends Component {
       </ul>
     );
 
-    const guestLinks = (
+    /*const guestLinks = (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
           <Link className="nav-link" to="/register">
@@ -50,7 +50,7 @@ class Navbar extends Component {
           </Link>
         </li>
       </ul>
-    );
+    );*/
 
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
@@ -70,7 +70,7 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse" id="mobile-nav">
             <ul className="navbar-nav mr-auto">
             </ul>
-            {isAuthenticated ? authLinks : guestLinks}
+            {isAuthenticated ? authLinks : ""}
           </div>
         </div>
       </nav>

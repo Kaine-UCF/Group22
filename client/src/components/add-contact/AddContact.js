@@ -4,6 +4,13 @@ import Button from 'react-bootstrap/Button'
 import Form from "react-bootstrap/Form"
 import "bootstrap/dist/js/bootstrap.bundle"
 import ContactLogo from "../../img/contacts.png"
+import PokemonPhone from "../../img/pokemonphone.png"
+import PokemonEmail from "../../img/pokemonemail.png"
+import AddFriend from "../../img/addfriend.png"
+import SettingIcon from "../../img/pokemonsetting.png"
+import EditContact from "../../img/edit.png"
+import FavContact from "../../img/favorite.png"
+import DeleteContact from "../../img/delete.png"
 // Contact name, [Picture]
 // Phone number. Email address
 // [date added]
@@ -155,11 +162,11 @@ class ContactRow extends Component {
 		if(!this.state.isEdit)
 		{
 			editButton =	(
-				<Dropdown title = "⚙️" variant = "outline-primary">
+				<Dropdown drop="left" title={<img src={SettingIcon} className="ContactPageSettingIcon"></img>} variant = "outline-primary">
 					<div className="d-flex flex-column">
-						 <Button variant="danger" onClick={this.onDelete} block><span aria-label="police">Delete?</span></Button>
-						 <Button variant="primary" onClick={this.onModify} block>Edit</Button>
-						 <Button variant="warning" onClick ={this.makeShiny} block>Make Shiny</Button>
+						 <Button variant="primary" onClick={this.onModify} block><img src={EditContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Edit</Button>
+						 <Button variant="warning" onClick ={this.makeShiny} block><img src={FavContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Make Shiny</Button>
+						 <Button variant="danger" onClick={this.onDelete} block><span aria-label="police"><img src={DeleteContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Delete?</span></Button>
 					</div>
 				</Dropdown>
 			)
@@ -171,6 +178,7 @@ class ContactRow extends Component {
 		}
 
 		return (
+			
 			<tr class={this.state.isShiny}>
 				<td>
 					<input
@@ -271,12 +279,12 @@ class ContactTable extends Component {
 						<th>
 							<i className="fa fa-fw">
 							</i>
-							 <span aria-label="phone">📧</span>Email
+							 <span aria-label="phone"><img src={PokemonEmail} class="ContactPageIcon" style={{marginRight: '5px'}}></img></span>Email
 						</th>
 						<th>
 							<i className="fa fa-fw">
 							</i>
-						<span aria-label="phone">📞</span>	Phone
+						<span aria-label="phone"><img src={PokemonPhone} class="ContactPageIcon"></img></span>	Phone
 						</th>
 					</tr>
 				</thead>
@@ -382,11 +390,13 @@ class NewContact extends Component {
 					</Form.Group>
 					<button
 						type="submit"
-						className="btn btn-primary btn-sm"
+						className="btn btn-link  btn-sm"
 						onClick ={this.handleSubmit}>
 						<b><span aria-label="plus">
-						Add Contact
-						</span></b></button>
+						<img src={AddFriend} className="ContactPageIcon"></img>
+						</span>
+						</b>
+						</button>
 				</Form.Row>
 			</Form>
 			</div>

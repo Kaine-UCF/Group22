@@ -147,7 +147,7 @@ class ContactRow extends Component {
 		this.state = {
 			isEdit: false,
 			_id:this.props.contact._id,
-			isShiny: true
+			isShiny: this.props.contact.isShiny
 		}
 	}
 	onDelete = () => {
@@ -179,7 +179,8 @@ class ContactRow extends Component {
 		})
 	}
 	makeShiny = () => {
-		this.setState({isShiny:!this.state.isShiny}, this.makeChange())
+
+		this.setState({isShiny:!this.state.isShiny}, this.makeChange)
 	}
  	render() {
 		let editButton;
@@ -194,7 +195,7 @@ class ContactRow extends Component {
 							block><img
 							src={FavContact}
 							className="ContactPageSettingOption"
-							style={{marginRight: '5px'}}></img>{this.state.isShiny ? "Shiny":"Dull" }</Button>
+							style={{marginRight: '5px'}}></img>{this.state.isShiny ? "Dull":"Shiny" }</Button>
 						 <Button variant="danger" onClick={this.onDelete} block><span aria-label="police"><img src={DeleteContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Delete?</span></Button>
 					</div>
 				</Dropdown>
@@ -205,9 +206,9 @@ class ContactRow extends Component {
 			editButton =
 			<Button variant="success" onClick={this.onModify}>Save Changes</Button>
 		}
-
+		console.log(this.state.isShiny)
 		return (
-			<tr className={(this.state.isShiny) ? "": "bg-warning"|| ""}>
+			<tr className={(this.state.isShiny) ? "bg-warning": ""|| ""}>
 				<td>
 					<input
 						disabled = {!this.state.isEdit || "" }

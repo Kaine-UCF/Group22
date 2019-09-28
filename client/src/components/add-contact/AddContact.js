@@ -62,8 +62,9 @@ class Contact extends Component {
 		//		console.log(this.state.contacts)
 	}
 	editContact = (c) => {
-		// console.log(c)
-		fetch(URL+"/api/contacts/update"+c._id,
+		 console.log(c)
+
+		fetch(URL+"/api/contacts/update/"+c._id,
 			{
 				method: 'POST', // or 'PUT'
 				body: JSON.stringify(c), // data can be `string` or {object}!
@@ -134,26 +135,24 @@ class ContactRow extends Component {
 		this.state = {
 			isEdit: false,
 			_id:this.props.contact._id,
-			isShiny:""
+			isShiny: "false"
 		}
 	}
 	onDelete = () => {
 	//	const promise = new Promise()
 		this.props.onDelete(this.props.contact)
 		.then( resp => this.props.loadContacts())
-	 // Terrible solution.
 	}
 	onModify = () =>  {
 		if(this.state.isEdit)
 		{
-			let contact = {
-				fname:"",
-				lname:"",
-				email:"",
-				phone:"",
-				_id:"",
-				isShiny:"",
-
+			const s = this.state;
+			for(var prop in s)
+			{
+				if(Object.prototype.hasOwnProperty.call(s, prop))
+				 {
+					  this.props.contact[prop] = s[prop];
+				 }
 			}
 			this.props.editContact(this.props.contact);
 		}
@@ -188,17 +187,17 @@ class ContactRow extends Component {
 		}
 
 		return (
-			<tr className={this.state.isShiny}>
+			<tr className={this.state.isShiny || ""}>
 				<td>
 					<input
-						disabled = {!this.state.isEdit}
+						disabled = {!this.state.isEdit || "" }
 						name="fname"
 						type = "text"
 						className ="form-control"
 						value =	{
 							(!this.state.isEdit)
 							? (this.props.contact.fname || "")
-							: this.state.fName}
+							: this.state.fname}
 						onChange = {this.editData}/>
 				</td>
 				<td>
@@ -210,7 +209,7 @@ class ContactRow extends Component {
 						value =	{
 							(!this.state.isEdit)
 							? (this.props.contact.lname || "")
-							: this.state.lName}
+							: this.state.lname}
 						onChange = {this.editData}/>
 				</td>
 				{/*TODO(Levi): Find out how format as phone number*/}
@@ -223,7 +222,7 @@ class ContactRow extends Component {
 				value =	{
 					(!this.state.isEdit)
 					? (this.props.contact.email || "")
-					: this.state.Email}
+					: this.state.email}
 				onChange = {this.editData}/>
 			</td>
 				<td>
@@ -235,7 +234,7 @@ class ContactRow extends Component {
 						value =	{
 							(!this.state.isEdit)
 							? (this.props.contact.phone|| "")
-							: this.state.Phone}
+							: this.state.phone}
 						onChange = {this.editData}/>
 				</td>
 				<td>

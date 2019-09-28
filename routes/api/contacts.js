@@ -73,7 +73,7 @@ router.delete('/:id',/* passport.authenticate("jwt", { session: false }), */func
 // @route   POST api/contacts/update/:id
 // @desc    Update contact by its ObjectId
 // @access  Private
-router.post('/update/:id', passport.authenticate("jwt", { session: false }),
+router.post('/update/:id',/* passport.authenticate("jwt", { session: false }),*/
   function(req, res, next) {
     const {errors, isValid} = validateContactCreation(req.body);
       console.log(req)

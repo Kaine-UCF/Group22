@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Form from "react-bootstrap/Form"
 import "bootstrap/dist/js/bootstrap.bundle"
 import ContactLogo from "../../img/contacts.png"
+import Pokeball from "../../img/pokeball.png"
 import PokemonPhone from "../../img/pokemonphone.png"
 import PokemonEmail from "../../img/pokemonemail.png"
 import AddFriend from "../../img/addfriend.png"
@@ -11,6 +12,7 @@ import SettingIcon from "../../img/pokemonsetting.png"
 import EditContact from "../../img/edit.png"
 import FavContact from "../../img/favorite.png"
 import DeleteContact from "../../img/delete.png"
+import SearchIcon from "../../img/searchIcon.png"
 // Contact name, [Picture]
 // Phone number. Email address
 // [date added]
@@ -301,12 +303,12 @@ class ContactTable extends Component {
 						<th>
 							<i className="fa fa-fw">
 							</i>
-						<span aria-label="phone">🤠</span>	First Name
+						<span aria-label="phone"><img src={Pokeball} class="ContactPageIcon" style={{marginRight: '5px'}}></img></span>	First Name
 						</th>
 						<th>
 							<i className="fa fa-fw">
 							</i>
-						<span aria-label="phone">🤠</span>	Last Name
+						<span aria-label="phone"><img src={Pokeball} class="ContactPageIcon" style={{marginRight: '5px'}}></img></span>	Last Name
 						</th>
 						<th>
 							<i className="fa fa-fw">
@@ -426,7 +428,7 @@ class NewContact extends Component {
 						className="btn btn-link  btn-sm"
 						onClick ={this.handleSubmit}>
 						<b><span aria-label="plus">
-						<img src={AddFriend} className="ContactPageIcon"></img>
+						<img src={AddFriend} className="Gotcha"></img>
 						</span>
 						</b>
 						</button>
@@ -481,7 +483,7 @@ class SearchBar extends Component {
 				type="button"
 				className="btn"
 				onClick={this.handleSubmit}
-				><b><span role="img" aria-label="Search">🔍</span></b></button>
+				><b><span role="img" aria-label="Search"><img src={SearchIcon} className="ContactPageSettingIcon" style={{marginRight: '5px'}}/></span></b>Search</button>
 				</Form.Group>
 				</Form.Row>
 			</Form>

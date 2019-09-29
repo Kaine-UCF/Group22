@@ -48,7 +48,7 @@ class Dashboard extends Component {
             dreams and adventures with People awaits! Let's go!
             </h1>
             <Link to="/add-contact" className="btn btn-lg btn-primary">
-              <img src={PeopleDex} class="OpenPeopledex"></img>
+              <img src={PeopleDex} className="OpenPeopledex"></img>
             </Link>
           </div>
         );

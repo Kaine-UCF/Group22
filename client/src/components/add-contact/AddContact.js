@@ -16,7 +16,7 @@ import SearchIcon from "../../img/searchIcon.png"
 // Contact name, [Picture]
 // Phone number. Email address
 // [date added]
-const URL = "http://ucfgroupwork.site";
+const URL = "3.15.31.36";
 class Contact extends Component {
 	constructor(props) {
 		super(props);

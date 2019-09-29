@@ -24,7 +24,7 @@ class Contact extends Component {
 		this.loadContacts();
 		this.state = {
 			toDeleteContact: {},
-			searchText: '',
+			search: {searchText: '', searchShiny:false},
 			contacts: [{"null":"null"}]
 		}
 	}
@@ -47,7 +47,7 @@ class Contact extends Component {
 		});
 	}
 	search = (e) => {
-		this.setState({searchText: e})
+		this.setState({search: e})
 	}
 	createNewContact = (c) => {
 		//TODO(Levi): Make actual database call to add contact
@@ -133,7 +133,7 @@ class Contact extends Component {
 					<ContactTable
 						loadContacts = {this.loadContacts}
 						contacts = {this.state.contacts}
-						searchText = {this.state.searchText}
+						search = {this.state.search}
 						onDelete = {this.onDelete}
 						editContact = {this.editContact}/>
 				</div>
@@ -283,7 +283,9 @@ class ContactTable extends Component {
 			(contact) => {
 				let fullName = contact.fname + " " + contact.lname;
 				fullName = fullName.toLowerCase();
-					if(fullName.includes(this.props.searchText.toLowerCase()) == false) {
+					if(this.props.search.searchShiny == true && contact.isShiny == false)
+						return false;
+					if(fullName.includes(this.props.search.searchText.toLowerCase()) == false) {
 						return;
 					}
 					rows.push(
@@ -442,7 +444,8 @@ class SearchBar extends Component {
 	constructor (props) {
 		super(props);
 		this.state = {
-			searchText:""
+			searchText:"",
+			searchShiny:false
 		}
 	}
 	_handleKeyDown = (e) => {
@@ -457,12 +460,28 @@ class SearchBar extends Component {
 	}
 	handleSubmit = (e) => {
 		//e.preventDefault();
-		this.props.search(this.state.searchText)
+		this.props.search(this.state)
 	}
 	preventReload = (e) => {
 		e.preventDefault();
 	}
+	changeSearchType = (caller) => {
+		this.setState({searchShiny: !this.state.searchShiny})
+	}
 	render() {
+		var searchToggle = (this.state.searchShiny)
+			?
+			<Button
+			type="button"
+			className="btn-outline-warning"
+			onClick={this.changeSearchType}
+			><b>Shiny</b></Button>
+			:
+			<Button
+			type="button"
+			className="btn-outline-dark"
+			onClick={this.changeSearchType}
+			><b>All</b></Button>
 		return  (
 			<Form className="form-inline md-form form-sm mt-0"
 				onSubmit= {e => this.preventReload(e)}>
@@ -483,7 +502,8 @@ class SearchBar extends Component {
 				type="button"
 				className="btn"
 				onClick={this.handleSubmit}
-				><b><span role="img" aria-label="Search"><img src={SearchIcon} className="ContactPageSettingIcon" style={{marginRight: '5px'}}/></span></b>Search</button>
+				><b><span role="img" aria-label="Search"><img src={SearchIcon} className="ContactPageSettingIcon" style={{marginRight: '5px'}}/></span>Search</b></button>
+				{searchToggle}
 				</Form.Group>
 				</Form.Row>
 			</Form>

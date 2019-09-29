@@ -197,7 +197,7 @@ class ContactRow extends Component {
 							src={FavContact}
 							className="ContactPageSettingOption"
 							style={{marginRight: '5px'}}></img>{this.state.isShiny ? "Dull":"Shiny" }</Button>
-						 <Button variant="danger" onClick={this.onDelete} block><span aria-label="police"><img src={DeleteContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Delete?</span></Button>
+						 <Button variant="danger" onClick={this.onDelete} block><span aria-label="police"><img src={DeleteContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Release?</span></Button>
 					</div>
 				</Dropdown>
 			)

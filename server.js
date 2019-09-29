@@ -10,6 +10,11 @@ const passport = require("passport");
 const path = require("path");
 const contacts = require("./routes/api/contacts");
 
+// added this
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+})
+
 // Body Parser Middleware:
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
@@ -48,11 +53,6 @@ app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
 app.use("/api/contacts", contacts);
-
-// added this
-app.get('*', function (request, response){
-  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-})
 
 // Listening
 const port = process.env.PORT || 5000

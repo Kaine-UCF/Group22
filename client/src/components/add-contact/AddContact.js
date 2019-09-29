@@ -41,7 +41,7 @@ class Contact extends Component {
 		.then(res => {
 			return res.json()
 		}).then( str => {
-			console.log(str)
+	//		console.log(str)
 
 			this.setState({contacts : str})
 		});
@@ -74,7 +74,7 @@ class Contact extends Component {
 		//		console.log(this.state.contacts)
 	}
 	editContact = (c) => {
-		 console.log(c)
+		// console.log(c)
 
 		fetch(URL+"/api/contacts/update/"+c._id,
 			{
@@ -94,7 +94,7 @@ class Contact extends Component {
 		console.log(this.state.contacts)*/
 	}
 	onDelete = (c) => {
-		console.log("Deleting... "+ c._id)
+	//	console.log("Deleting... "+ c._id)
 			const t =  fetch(URL+"/api/contacts/"+c._id,
 					{
 					method: 'DELETE', // or 'PUT'
@@ -115,7 +115,6 @@ class Contact extends Component {
 		return (
 
 			<div>
-				<h1>{"Welcome, user "+ localStorage.getItem("userID") + "!"}</h1>
 				<div className="col-xs-6">
 					<img src={ContactLogo} className="ContactLogo"/>
 				</div>
@@ -208,7 +207,7 @@ class ContactRow extends Component {
 			editButton =
 			<Button variant="success" onClick={this.onModify}>Save Changes</Button>
 		}
-		console.log(this.state.isShiny)
+	//	console.log(this.state.isShiny)
 		return (
 			<tr className={(this.state.isShiny) ? "bg-warning": ""|| ""}>
 				<td>
@@ -305,22 +304,22 @@ class ContactTable extends Component {
 						<th>
 							<i className="fa fa-fw">
 							</i>
-						<span aria-label="phone"><img src={Pokeball} class="ContactPageIcon" style={{marginRight: '5px'}}></img></span>	First Name
+						<span aria-label="phone"><img src={Pokeball} className="ContactPageIcon" style={{marginRight: '5px'}}></img></span>	First Name
 						</th>
 						<th>
 							<i className="fa fa-fw">
 							</i>
-						<span aria-label="phone"><img src={Pokeball} class="ContactPageIcon" style={{marginRight: '5px'}}></img></span>	Last Name
+						<span aria-label="phone"><img src={Pokeball} className="ContactPageIcon" style={{marginRight: '5px'}}></img></span>	Last Name
 						</th>
 						<th>
 							<i className="fa fa-fw">
 							</i>
-							 <span aria-label="phone"><img src={PokemonEmail} class="ContactPageIcon" style={{marginRight: '5px'}}></img></span>Email
+							 <span aria-label="phone"><img src={PokemonEmail} className="ContactPageIcon" style={{marginRight: '5px'}}></img></span>Email
 						</th>
 						<th>
 							<i className="fa fa-fw">
 							</i>
-						<span aria-label="phone"><img src={PokemonPhone} class="ContactPageIcon"></img></span>	Phone
+						<span aria-label="phone"><img src={PokemonPhone} className="ContactPageIcon"></img></span>	Phone
 						</th>
 					</tr>
 				</thead>

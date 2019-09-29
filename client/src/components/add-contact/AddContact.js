@@ -16,7 +16,7 @@ import SearchIcon from "../../img/searchIcon.png"
 // Contact name, [Picture]
 // Phone number. Email address
 // [date added]
-const URL = "http://localhost:3000";
+const URL = "http://ucfgroupwork.site";
 class Contact extends Component {
 	constructor(props) {
 		super(props);
@@ -25,7 +25,7 @@ class Contact extends Component {
 		this.state = {
 			toDeleteContact: {},
 			search: {searchText: '', searchShiny:false},
-			contacts: [{"null":"null"}]
+			contacts: []
 		}
 	}
 	loadContacts = () => {
@@ -33,9 +33,11 @@ class Contact extends Component {
 		fetch(URL+"/api/contacts/list", {
 			method: 'POST',
 			body: JSON.stringify(body),
+
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': localStorage.getItem('jwtToken')
+
 			}
 		})
 		.then(res => {
@@ -197,7 +199,7 @@ class ContactRow extends Component {
 							src={FavContact}
 							className="ContactPageSettingOption"
 							style={{marginRight: '5px'}}></img>{this.state.isShiny ? "Dull":"Shiny" }</Button>
-						 <Button variant="danger" onClick={this.onDelete} block><span aria-label="police"><img src={DeleteContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Delete?</span></Button>
+						 <Button variant="danger" onClick={this.onDelete} block><span aria-label="police"><img src={DeleteContact} className="ContactPageSettingOption" style={{marginRight: '5px'}}></img>Release?</span></Button>
 					</div>
 				</Dropdown>
 			)

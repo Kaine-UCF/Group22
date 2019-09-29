@@ -14,6 +14,8 @@ const contacts = require("./routes/api/contacts");
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, "client/build")))
+
+
 // DB Config:
 const db = require("./config/keys").mongoURI;
 
@@ -46,6 +48,11 @@ app.use("/api/users", users);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
 app.use("/api/contacts", contacts);
+
+// added this
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+})
 
 // Listening
 const port = process.env.PORT || 5000

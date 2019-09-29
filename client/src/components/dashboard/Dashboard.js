@@ -38,7 +38,15 @@ class Dashboard extends Component {
         // User is logged in but has no profile
         dashboardContent = (
           <div>
-            <p className="lead text-muted">Welcome, {user.name}</p>
+          <h1>
+            <br/> Welcome to the world of People! My name is Oak!
+            People call me the People Prof!
+            <br/>This world is inhabited by creatures called People! For some
+            people, People are pets. Others use them for fights. Myself...
+            I study people as a profession.
+            <br/>{user.name.charAt(0).toUpperCase() + user.name.slice(1)}! Your very own People legend is about to unfold! A world of
+            dreams and adventures with People awaits! Let's go!
+            </h1>
             <Link to="/add-contact" className="btn btn-lg btn-primary">
               <img src={PeopleDex} class="OpenPeopledex"></img>
             </Link>
@@ -52,7 +60,7 @@ class Dashboard extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <h1 className="display-4">Dashboard</h1>
+              <h1 className="display-4">Hello there!</h1>
               {dashboardContent}
             </div>
           </div>

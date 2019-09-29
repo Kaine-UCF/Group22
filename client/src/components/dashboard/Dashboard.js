@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getCurrentProfile, deleteAccount } from '../../actions/profileActions';
 import Spinner from '../common/Spinner';
 import ProfileActions from './ProfileActions';
-import addContactLogo from "../../img/addContact.png";
+import PeopleDex from "../../img/openPeopleDex.png";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -38,10 +38,9 @@ class Dashboard extends Component {
         // User is logged in but has no profile
         dashboardContent = (
           <div>
-            <p className="lead text-muted">Welcome {user.name}</p>
-            <p>You don't have any contacts yet!</p>
+            <p className="lead text-muted">Welcome, {user.name}</p>
             <Link to="/add-contact" className="btn btn-lg btn-primary">
-              <img src={addContactLogo}></img>
+              <img src={PeopleDex} class="OpenPeopledex"></img>
             </Link>
           </div>
         );

@@ -148,7 +148,7 @@ class ContactRow extends Component {
 		this.state = {
 			isEdit: false,
 			_id:this.props.contact._id,
-			isShiny: this.props.contact.isShiny
+			isShiny: this.props.contact.isShiny || false
 		}
 	}
 	onDelete = () => {
@@ -209,15 +209,15 @@ class ContactRow extends Component {
 		}
 	//	console.log(this.state.isShiny)
 		return (
-			<tr className={(this.state.isShiny) ? "bg-warning": ""|| ""}>
+			<tr className={(this.state.isShiny || false) ? "bg-warning": ""}>
 				<td>
 					<input
-						disabled = {!this.state.isEdit || "" }
+						disabled = {!this.state.isEdit || false }
 						name="fname"
 						type = "text"
 						className ="form-control"
 						value =	{
-							(!this.state.isEdit)
+							(!this.state.isEdit || false)
 							? (this.props.contact.fname || "")
 							: this.state.fname}
 						onChange = {this.editData}/>

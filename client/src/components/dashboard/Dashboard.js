@@ -6,6 +6,7 @@ import { getCurrentProfile, deleteAccount } from '../../actions/profileActions';
 import Spinner from '../common/Spinner';
 import ProfileActions from './ProfileActions';
 import PeopleDex from "../../img/openPeopleDex.png";
+import ProfOak from "../../img/ProfessorOak.png"
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -38,8 +39,9 @@ class Dashboard extends Component {
         // User is logged in but has no profile
         dashboardContent = (
           <div>
-          <h1>
-            <br/> Welcome to the world of People! My name is Oak!
+          <h1 align="center">
+          <img src={ProfOak} className="Oak"/>
+            <br/>Welcome to the world of People! My name is Oak!
             People call me the People Prof!
             <br/>This world is inhabited by creatures called People! For some
             people, People are pets. Others use them for fights. Myself...
